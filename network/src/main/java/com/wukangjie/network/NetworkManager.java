@@ -1,8 +1,10 @@
 package com.wukangjie.network;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkRequest;
 import android.os.Build;
 
 import com.wukangjie.network.annotation.Network;
@@ -38,18 +40,23 @@ public class NetworkManager {
     public void init(Application application) {
         mApplication = application;
         //第一种方式
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constants.MONITOR_INTENT_FILETER_ACTION);
-        mNetworkBroadcastReceiver.setApplication(application);
-        application.registerReceiver(mNetworkBroadcastReceiver, intentFilter);
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Constants.MONITOR_INTENT_FILETER_ACTION);
+//        mNetworkBroadcastReceiver.setApplication(application);
+//        application.registerReceiver(mNetworkBroadcastReceiver, intentFilter);
 
         //第二种方式监听，ConnectivityManager
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl();
-//
-//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl();
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            NetworkRequest networkRequest = builder.build();
+            ConnectivityManager cmgr = (ConnectivityManager) mApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cmgr != null) {
+                cmgr.registerNetworkCallback(networkRequest, networkCallback);
+            }
+        } else {
+
+        }
 
     }
 
