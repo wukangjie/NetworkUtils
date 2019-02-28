@@ -40,17 +40,16 @@ public class NetworkManager {
         //第一种方式
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.MONITOR_INTENT_FILETER_ACTION);
+        mNetworkBroadcastReceiver.setApplication(application);
         application.registerReceiver(mNetworkBroadcastReceiver, intentFilter);
 
         //第二种方式监听，ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl();
-
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        }
-
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl();
+//
+//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+//        }
 
     }
 
@@ -98,7 +97,7 @@ public class NetworkManager {
         for (Object object : mManagerMap.keySet()) {
             List<MethodManager> list = mManagerMap.get(object);
             for (MethodManager methodManager : list) {
-                if (!methodManager.getNetworkType().getName().equals("com.example.network.NetworkType")) {
+                if (!methodManager.getNetworkType().getName().equals("com.wukangjie.network.NetworkType")) {
                     continue;
                 }
                 NetworkType target = methodManager.getTarget();

@@ -1,20 +1,19 @@
 package com.wukangjie.network.util;
 
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
 
-import com.wukangjie.network.BaseApplication;
 import com.wukangjie.network.NetworkType;
 
 public class NetworkUtils {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) BaseApplication
-                .application.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkAvailable(Application application) {
+        ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
         Network[] allNetworks = cm.getAllNetworks();
         for (Network network : allNetworks) {
             NetworkInfo networkInfo = cm.getNetworkInfo(network);
@@ -26,10 +25,9 @@ public class NetworkUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static NetworkType getNetworkType() {
+    public static NetworkType getNetworkType(Application application) {
         NetworkType networkType;
-        ConnectivityManager cm = (ConnectivityManager) BaseApplication
-                .application.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
         if (activeNetworkInfo == null) {
             return NetworkType.NO;

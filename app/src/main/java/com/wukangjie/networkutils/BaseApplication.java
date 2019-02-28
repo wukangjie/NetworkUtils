@@ -1,6 +1,8 @@
-package com.wukangjie.network;
+package com.wukangjie.networkutils;
 
 import android.app.Application;
+
+import com.wukangjie.network.NetworkManager;
 
 public class BaseApplication extends Application {
     public static Application application;
