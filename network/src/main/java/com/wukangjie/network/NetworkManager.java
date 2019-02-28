@@ -2,6 +2,8 @@ package com.wukangjie.network;
 
 import android.app.Application;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.Build;
 
 import com.wukangjie.network.annotation.Network;
 import com.wukangjie.network.bean.MethodManager;
@@ -35,9 +37,21 @@ public class NetworkManager {
 
     public void init(Application application) {
         mApplication = application;
+        //第一种方式
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.MONITOR_INTENT_FILETER_ACTION);
         application.registerReceiver(mNetworkBroadcastReceiver, intentFilter);
+
+        //第二种方式监听，ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl();
+
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+
+
+
     }
 
 //    public void setNetworkListener(NetworkBroadcastReceiver.NetworkListener networkListener) {
